@@ -15,11 +15,17 @@
       "secret_key": "{{user `aws_secret_key`}}",
       "region": "{{user `aws_region`}}",
       "vpc_id": "{{user `aws_vpc_id`}}",
-       "subnet_id": "{{user `aws_subnet_id`}}",
+      "subnet_id": "{{user `aws_subnet_id`}}",
       "source_ami": "{{user `aws_ami_source`}}",
       "instance_type": "t2.micro",
       "ssh_username": "ec2-user",
-      "ami_name": "{{user `aws_ami_name`}}"
+      "ami_name": "{{user `aws_ami_name`}}",
+      "run_tags": {
+        "Name": "EC2-Packer-Builder"
+      },
+      "tags": {
+        "Name": "{{user `aws_ami_name`}}"
+      }
     }
   ],
   "provisioners": [
