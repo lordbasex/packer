@@ -10,29 +10,13 @@
       "secret_key": "{{user `aws_secret_key`}}",
       "region": "us-east-1",
       "source_ami": "ami-0ed9277fb7eb570c9",
-      "source_ami_filter": {
-        "owners": [
-          "812083501456"
-        ],
-        "most_recent": true
-      },
       "instance_type": "t2.micro",
       "ssh_username": "ec2-user",
       "ami_name": "packer-demo {{timestamp}}"
     }
   ],
   "provisioners": [
-    {
-      "type": "file",
-      "source": "./scripts/packer-key.pub",
-      "destination": "~/.ssh/"
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "cat ~/.ssh/packer-key.pub >> ~/.ssh/authorized_keys"
-      ]
-    },
+
     {
       "type": "shell",
       "script": "scripts/install-docker.sh"
