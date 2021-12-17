@@ -8,7 +8,7 @@
       "type": "amazon-ebs",
       "access_key": "{{user `aws_access_key`}}",
       "secret_key": "{{user `aws_secret_key`}}",
-      "region": "us-east-2",
+      "region": "us-east-1",
       "source_ami": "ami-0ed9277fb7eb570c9",
       "source_ami_filter": {
         "owners": [
