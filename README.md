@@ -21,7 +21,7 @@ packer --help
 ```
 cd /root
 git clone https://github.com/lordbasex/packer.git
-cd /root/packer
+cd packer
 packer validate aws-ami.json
 packer build aws-ami.json
 ```
