@@ -1,18 +1,25 @@
 {
   "variables": {
     "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
-    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}"
+    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+    "aws_region": "{{env `AWS_REGION`}}",
+    "aws_vpc_id": "{{env `AWS_VPC_ID`}}",
+    "aws_subnet_id": "{{env `AWS_SUBNET_ID`}}",
+    "aws_ami_name": "{{env `AWS_AMI_NAME`}}-{{timestamp}}",
+    "aws_ami_source": "{{env `AWS_AMI_SOURCE`}}"
   },
   "builders": [
     {
       "type": "amazon-ebs",
       "access_key": "{{user `aws_access_key`}}",
       "secret_key": "{{user `aws_secret_key`}}",
-      "region": "us-east-1",
-      "source_ami": "ami-0ed9277fb7eb570c9",
+      "region": "{{user `aws_region`}}",
+      "vpc_id": "{{user `aws_vpc_id`}}",
+       "subnet_id": "{{user `aws_subnet_id`}}",
+      "source_ami": "{{user `aws_ami_source`}}",
       "instance_type": "t2.micro",
       "ssh_username": "ec2-user",
-      "ami_name": "packer-demo {{timestamp}}"
+      "ami_name": "{{user `aws_ami_name`}}"
     }
   ],
   "provisioners": [
