@@ -1,3 +1,40 @@
+#!/bin/bash
+
+#Install Docker
+yum -y update
+yum -y install curl git wget mc screen htop
+yum -y install docker
+curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
+chmod +x /usr/bin/docker-compose
+mkdir -p /etc/docker
+
+cat > /etc/docker/daemon.json <<ENDLINE
+{
+  "bip": "172.17.0.1/24",
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m"
+  }
+}
+ENDLINE
+
+usermod -a -G docker ec2-user
+systemctl enable docker
+systemctl start docker
+
+#Deploy 
+mkdir -p /opt/docker-compose && cd /opt/docker-compose
+
+echo "MYSQL_ROOT_PASSWORD=`head -c 200 /dev/urandom | tr -cd 'A-Za-z0-9' | head -c 20`" >> /opt/docker-compose/.env
+echo "MYSQL_DATABASE=`head -c 200 /dev/urandom | tr -cd 'A-Za-z0-9' | head -c 20`" >> /opt/docker-compose/.env
+echo "MYSQL_USER=`head -c 200 /dev/urandom | tr -cd 'A-Za-z0-9' | head -c 20`" >> /opt/docker-compose/.env
+echo "MYSQL_PASSWORD=`head -c 200 /dev/urandom | tr -cd 'A-Za-z0-9' | head -c 20`" >> /opt/docker-compose/.env
+echo "IP_PUBLIC=`curl --silent ifconfig.me`" >> /opt/docker-compose/.env
+echo "WORDPRESS_TITLE=My Wordpress" >> /opt/docker-compose/.env
+echo "WORDPRESS_ADMIN=superadmin" >> /opt/docker-compose/.env
+echo "WORDPRESS_ADMIN_PASSWORD=`head -c 200 /dev/urandom | tr -cd 'A-Za-z0-9' | head -c 20`" >> /opt/docker-compose/.env
+echo "WORDPRESS_ADMIN_EMAIL=lord.basex@gmail.com" >> /opt/docker-compose/.env
+
 cat > /opt/docker-compose/docker-compose.yml <<ENDLINE
 version: '3.1'
 
@@ -56,3 +93,5 @@ services:
     entrypoint: sh
     command: -c 'sleep 10; export; wp core install --url="http://\${IP_PUBLIC}" --title="\${WORDPRESS_TITLE}" --admin_name=\${WORDPRESS_ADMIN} --admin_password=\${WORDPRESS_ADMIN_PASSWORD} --admin_email=\${WORDPRESS_ADMIN_EMAIL}'
 ENDLINE
+
+docker-compose up -d
