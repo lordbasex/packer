@@ -29,10 +29,10 @@
     }
   ],
   "provisioners": [
-
     {
       "type": "shell",
-      "script": "scripts/install-docker.sh"
+      "script": "scripts/amazonlinux-install-docker.sh",
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E '{{ .Path }}'"
     }
   ]
 }
