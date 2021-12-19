@@ -29,7 +29,7 @@ echo "MYSQL_ROOT_PASSWORD=`head -c 200 /dev/urandom | tr -cd 'A-Za-z0-9' | head 
 echo "MYSQL_DATABASE=`head -c 200 /dev/urandom | tr -cd 'A-Za-z0-9' | head -c 20`" >> /opt/docker-compose/.env
 echo "MYSQL_USER=`head -c 200 /dev/urandom | tr -cd 'A-Za-z0-9' | head -c 20`" >> /opt/docker-compose/.env
 echo "MYSQL_PASSWORD=`head -c 200 /dev/urandom | tr -cd 'A-Za-z0-9' | head -c 20`" >> /opt/docker-compose/.env
-echo "IP_PUBLIC=`curl --silent ifconfig.me`" >> /opt/docker-compose/.env
+echo "IP_PUBLIC=\$(curl --silent ifconfig.me)" >> /opt/docker-compose/.env
 echo "WORDPRESS_TITLE=My Wordpress" >> /opt/docker-compose/.env
 echo "WORDPRESS_ADMIN=superadmin" >> /opt/docker-compose/.env
 echo "WORDPRESS_ADMIN_PASSWORD=`head -c 200 /dev/urandom | tr -cd 'A-Za-z0-9' | head -c 20`" >> /opt/docker-compose/.env
@@ -84,6 +84,7 @@ services:
       - "WORDPRESS_DB_USER=\${MYSQL_USER}"
       - "WORDPRESS_DB_PASSWORD=\${MYSQL_PASSWORD}"
       - "WORDPRESS_DB_NAME=\${MYSQL_DATABASE}"
+      - "IP_PUBLIC=\${IP_PUBLIC}"
       - "WORDPRESS_TITLE=\${WORDPRESS_TITLE}"
       - "WORDPRESS_ADMIN=\${WORDPRESS_ADMIN}"
       - "WORDPRESS_ADMIN_PASSWORD=\${WORDPRESS_ADMIN_PASSWORD}"
