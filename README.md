@@ -47,7 +47,7 @@ export AWS_SECRET_ACCESS_KEY="us-east-1"
 export AWS_VPC_ID="vpc-XXXXXXXXXXXXXXXX"
 export AWS_SUBNET_ID="subnet-XXXXXXXXXXXXXXXX"
 export AWS_AMI_NAME="packer-demo"
-export AWS_AMI_SOURCE="ami-0ed9277fb7eb570c9"
+export AWS_AMI_SOURCE="ami-0ed9277fb7eb570c9" #Amazon Linux 2 AMI (HVM) - Kernel 5.10, SSD Volume Type
 
 packer validate aws-ami.json
 packer build aws-ami.json
